@@ -90,7 +90,9 @@ export default function MovieDetailsPage() {
                 </p>
                 <p className={css.textDescription}>
                   <b> Genres :</b>{" "}
-                  {movie.genres.map((genre) => genre.name).join(", ")}
+                  {movie.genres
+                    ? movie.genres.map((genre) => genre.name).join(", ")
+                    : ""}
                 </p>
                 <p className={css.textDescription}>
                   <b>Overview :</b> {movie.overview}
