@@ -28,11 +28,13 @@ const movieSlice = createSlice({
         state.error = false;
         state.loading = true;
       })
+
       .addCase(getMovieDetails.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = state.items.filter(
-          (movie) => movie.id !== action.payload.id
-        );
+        const movieToAdd = action.payload;
+        if (!state.items.find((movie) => movie.id === movieToAdd.id)) {
+          state.items.push(movieToAdd);
+        }
       })
       .addCase(getMovieDetails.rejected, (state) => {
         state.error = true;
@@ -41,3 +43,11 @@ const movieSlice = createSlice({
 });
 
 export const movieReducer = movieSlice.reducer;
+
+// .addCase(getMovieDetails.fulfilled, (state, action) => {
+//   state.loading = false;
+//   const updatedMovie = action.payload;
+//   state.items = state.items.map((movie) =>
+//     movie.id === updatedMovie.id ? updatedMovie : movie
+//   );
+// })

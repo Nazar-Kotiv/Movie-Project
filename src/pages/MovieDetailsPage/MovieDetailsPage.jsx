@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import css from "./MovieDetailsPage.module.css";
 // import { getMovieId } from "../../movies-api";
 import {
@@ -12,16 +12,19 @@ import { Suspense } from "react";
 import ThreeDots from "../../components/LoaderDetails/LoaderDetails";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { selectMovieById } from "../../redux/movies/selectros";
+import {
+  selectMovieById,
+  selectError,
+  selectLoading,
+} from "../../redux/movies/selectros";
 import { getMovieDetails } from "../../redux/movies/operations";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
-  // const [movie, setMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
   const defaultImg =
     "https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg";
+  const error = useSelector(selectError);
+  const loading = useSelector(selectLoading);
 
   const location = useLocation();
   const backLinkRef = useRef(location.state ?? "/");
@@ -33,26 +36,10 @@ export default function MovieDetailsPage() {
     dispatch(getMovieDetails(movieId));
   }, [movieId, dispatch]);
 
-  // useEffect(() => {
-  //   async function getData() {
-  //     try {
-  //       setIsLoading(true);
-  //       const data = await getMovieId(movieId);
-  //       setMovie(data);
-  //     } catch (error) {
-  //       setError(true);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
-
-  //   getData();
-  // }, [movieId]);
-
   return (
     <div className={css.container}>
       <div className={css.containerFilm}>
-        {isLoading && <ThreeDots />}
+        {loading && <ThreeDots />}
         {error && (
           <p>
             Movie not found! <Link to="/"> Go back</Link>
