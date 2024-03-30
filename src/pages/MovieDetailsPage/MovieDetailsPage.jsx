@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import css from "./MovieDetailsPage.module.css";
 // import { getMovieId } from "../../movies-api";
 import {
@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import ThreeDots from "../../components/LoaderDetails/LoaderDetails";
 import { FaArrowLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { selectContacts } from "../../redux/movies/selectros";
+import { selectMovieById } from "../../redux/movies/selectros";
 import { getMovieDetails } from "../../redux/movies/operations";
 
 export default function MovieDetailsPage() {
@@ -26,13 +26,12 @@ export default function MovieDetailsPage() {
   const location = useLocation();
   const backLinkRef = useRef(location.state ?? "/");
 
-  const movie = useSelector(selectContacts);
+  const movie = useSelector((state) => selectMovieById(state, movieId));
   const dispatch = useDispatch();
 
-  const handle = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     dispatch(getMovieDetails(movieId));
-  };
+  }, [movieId, dispatch]);
 
   // useEffect(() => {
   //   async function getData() {
