@@ -28,7 +28,16 @@ const movieSlice = createSlice({
         state.error = false;
         state.loading = true;
       })
-      .addCase(getMovieDetails.fulfilled, (state, action) => {}),
+      .addCase(getMovieDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = state.items.filter(
+          (contact) => contact.id !== action.payload.id
+        );
+      })
+      .addCase(getMovieDetails.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+      }),
 });
 
 export const movieReducer = movieSlice.reducer;

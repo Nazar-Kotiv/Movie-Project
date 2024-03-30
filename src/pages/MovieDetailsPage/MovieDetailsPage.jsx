@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import css from "./MovieDetailsPage.module.css";
-import { getMovieId } from "../../movies-api";
+// import { getMovieId } from "../../movies-api";
 import {
   useParams,
   NavLink,
@@ -11,10 +11,13 @@ import {
 import { Suspense } from "react";
 import ThreeDots from "../../components/LoaderDetails/LoaderDetails";
 import { FaArrowLeft } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { selectContacts } from "../../redux/movies/selectros";
+import { getMovieDetails } from "../../redux/movies/operations";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState(null);
+  // const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const defaultImg =
@@ -23,21 +26,29 @@ export default function MovieDetailsPage() {
   const location = useLocation();
   const backLinkRef = useRef(location.state ?? "/");
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        setIsLoading(true);
-        const data = await getMovieId(movieId);
-        setMovie(data);
-      } catch (error) {
-        setError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+  const movie = useSelector(selectContacts);
+  const dispatch = useDispatch();
 
-    getData();
-  }, [movieId]);
+  const handle = (e) => {
+    e.preventDefault();
+    dispatch(getMovieDetails(movieId));
+  };
+
+  // useEffect(() => {
+  //   async function getData() {
+  //     try {
+  //       setIsLoading(true);
+  //       const data = await getMovieId(movieId);
+  //       setMovie(data);
+  //     } catch (error) {
+  //       setError(true);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   }
+
+  //   getData();
+  // }, [movieId]);
 
   return (
     <div className={css.container}>
