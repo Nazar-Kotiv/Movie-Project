@@ -1,0 +1,20 @@
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.link {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.3s ease-in-out;
+  font-size: 18px;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #0056b3; /* Змінено колір при наведенні */
+}
