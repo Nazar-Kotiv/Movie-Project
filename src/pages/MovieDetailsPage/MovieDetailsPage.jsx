@@ -1,6 +1,6 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import css from "./MovieDetailsPage.module.css";
-// import { getMovieId } from "../../movies-api";
+import { getMovieId } from "../../movies-api";
 import {
   useParams,
   NavLink,
@@ -11,35 +11,38 @@ import {
 import { Suspense } from "react";
 import ThreeDots from "../../components/LoaderDetails/LoaderDetails";
 import { FaArrowLeft } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectMovieById,
-  selectError,
-  selectLoading,
-} from "../../redux/movies/selectros";
-import { getMovieDetails } from "../../redux/movies/operations";
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const defaultImg =
     "https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg";
-  const error = useSelector(selectError);
-  const loading = useSelector(selectLoading);
 
   const location = useLocation();
   const backLinkRef = useRef(location.state ?? "/");
 
-  const movie = useSelector((state) => selectMovieById(state, movieId));
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(getMovieDetails(movieId));
-  }, [movieId, dispatch]);
+    async function getData() {
+      try {
+        setIsLoading(true);
+        const data = await getMovieId(movieId);
+        setMovie(data);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getData();
+  }, [movieId]);
 
   return (
     <div className={css.container}>
       <div className={css.containerFilm}>
-        {loading && <ThreeDots />}
+        {isLoading && <ThreeDots />}
         {error && (
           <p>
             Movie not found! <Link to="/"> Go back</Link>
@@ -77,9 +80,7 @@ export default function MovieDetailsPage() {
                 </p>
                 <p className={css.textDescription}>
                   <b> Genres :</b>{" "}
-                  {movie.genres
-                    ? movie.genres.map((genre) => genre.name).join(", ")
-                    : ""}
+                  {movie.genres.map((genre) => genre.name).join(", ")}
                 </p>
                 <p className={css.textDescription}>
                   <b>Overview :</b> {movie.overview}

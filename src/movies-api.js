@@ -18,10 +18,10 @@ const options = {
 //   return response.data.results;
 // };
 
-// export const getMovieId = async (movieId) => {
-//   const response = await axios.get(`/movie/${movieId}?language=en-US`, options);
-//   return response.data;
-// };
+export const getMovieId = async (movieId) => {
+  const response = await axios.get(`/movie/${movieId}?language=en-US`, options);
+  return response.data;
+};
 
 export const getMovieCredits = async (movieId) => {
   const response = await axios.get(

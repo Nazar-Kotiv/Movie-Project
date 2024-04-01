@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchMovies, getMovieDetails } from "./operations";
+import { fetchMovies } from "./operations";
 
 const movieSlice = createSlice({
   name: "movies",
@@ -23,23 +23,23 @@ const movieSlice = createSlice({
       .addCase(fetchMovies.rejected, (state) => {
         state.error = true;
         state.loading = false;
-      })
-      .addCase(getMovieDetails.pending, (state) => {
-        state.error = false;
-        state.loading = true;
-      })
-
-      .addCase(getMovieDetails.fulfilled, (state, action) => {
-        state.loading = false;
-        const movieToAdd = action.payload;
-        if (!state.items.find((movie) => movie.id === movieToAdd.id)) {
-          state.items.push(movieToAdd);
-        }
-      })
-      .addCase(getMovieDetails.rejected, (state) => {
-        state.error = true;
-        state.loading = false;
       }),
+  // .addCase(getMovieDetails.pending, (state) => {
+  //   state.error = false;
+  //   state.loading = true;
+  // })
+
+  // .addCase(getMovieDetails.fulfilled, (state, action) => {
+  //   state.loading = false;
+  //   const movieToAdd = action.payload;
+  //   if (!state.items.find((movie) => movie.id === movieToAdd.id)) {
+  //     state.items.push(movieToAdd);
+  //   }
+  // })
+  // .addCase(getMovieDetails.rejected, (state) => {
+  //   state.error = true;
+  //   state.loading = false;
+  // }),
 });
 
 export const movieReducer = movieSlice.reducer;
