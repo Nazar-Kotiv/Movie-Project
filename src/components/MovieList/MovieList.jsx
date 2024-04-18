@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./MovieList.module.css";
-import clsx from "clsx";
 import { useSelector } from "react-redux";
 
 import { selectMovies } from "../../redux/movies/selectros";

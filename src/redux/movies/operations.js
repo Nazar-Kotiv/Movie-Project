@@ -12,11 +12,26 @@ const options = {
 };
 
 export const fetchMovies = createAsyncThunk(
-  "movies/fetchAll",
+  "movies/fetchTrendingMovies",
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
         "/trending/movie/day?language=en-US",
+        options
+      );
+      return response.data.results;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getAllMovies = createAsyncThunk(
+  "movies/getAllMovies",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        "/trending/all/day?language=en-US",
         options
       );
       return response.data.results;

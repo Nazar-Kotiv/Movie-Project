@@ -6,6 +6,9 @@ import "./App.css";
 import Navigation from "../Navigation/Navigation";
 
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
+const AllMoviesPage = lazy(() =>
+  import("../../pages/AllMoviesPage/AllMoviesPage")
+);
 const NotFoundPage = lazy(() =>
   import("../../pages/NotFoundPage/NotFoundPage")
 );
@@ -24,6 +27,7 @@ export default function App() {
         <Suspense fallback={<LoaderHomePage />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/allMovies" element={<AllMoviesPage />} />
             <Route path="/movies" element={<MoviePage />} />
             <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
               <Route path="cast" element={<MovieCast />} />

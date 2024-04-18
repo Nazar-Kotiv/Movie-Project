@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchMovies } from "./operations";
+import { fetchMovies, getAllMovies } from "./operations";
 
 const movieSlice = createSlice({
   name: "movies",
@@ -21,6 +21,18 @@ const movieSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(fetchMovies.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+      })
+      .addCase(getAllMovies.pending, (state) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(getAllMovies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(getAllMovies.rejected, (state) => {
         state.error = true;
         state.loading = false;
       }),

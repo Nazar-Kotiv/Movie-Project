@@ -10,6 +10,10 @@ export default function Navigation() {
   return (
     <div className={css.container}>
       <nav className={css.nav}>
+        <NavLink to="/allMovies" className={makeLinkClass}>
+          {" "}
+          All Movies
+        </NavLink>
         <NavLink to="/" className={makeLinkClass}>
           Home
         </NavLink>
